@@ -1,4 +1,4 @@
-#Juego: Simon Dice 😎
+## Juego: Simon Dice 😎
 - Vamos a ir iluminando una secuencia de botones.
 - Cada nivel adiciona un boton a la secuencia.
 - El usuario va a tener que repetir la secuencia.
