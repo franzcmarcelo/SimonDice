@@ -1,0 +1,82 @@
+body {
+  margin: 0;
+  background: #dedede;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+}
+
+.gameboard {
+  height: 100vh;
+  width: 100vh;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto;
+  max-height: 60vh;
+  max-width: 60vh;
+}
+
+.color {
+  width: 50%;
+  height: 50%;
+  display: inline-block;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: left;
+}
+
+.celeste {
+  background: #4ed5c7;
+}
+
+.celeste.light {
+  background: #6ff0e3;
+}
+
+.rojo {
+  background: #d44865;
+}
+
+.rojo.light {
+  background: #f06480;
+}
+
+.naranja {
+  background: #f7a67b;
+}
+
+.naranja.light {
+  background: #ffbd99;
+}
+
+.verde {
+  background: #b8da8d;
+}
+
+.verde.light {
+  background: #dbf7b6;
+}
+
+.btn-start {
+  width: 400px;
+  height: 100px;
+  background: #f7f7f7;
+  color: #2c3e50;
+  font-size: 2.5rem;
+  position: absolute;
+  top: calc(50% - 50px);
+  left: calc(50% - 200px);
+}
+
+.hide {
+  display: none;
+}
+
+* {
+  font-family: "Arial";
+}

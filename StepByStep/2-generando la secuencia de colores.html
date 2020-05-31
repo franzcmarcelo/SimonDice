@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Simon Dice 2 generando secuencia</title>
+    <style>
+      body {
+        margin: 0;
+        background: #dedede;
+        display: flex;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .gameboard {
+        height: 100vh;
+        width: 100vh;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto;
+        max-height: 60vh;
+        max-width: 60vh;
+      }
+
+      .color {
+        width: 50%;
+        height: 50%;
+        display: inline-block;
+      }
+
+      .left {
+        float: left;
+      }
+
+      .right {
+        float: left;
+      }
+
+      .celeste {
+        background: #22a6b3;
+      }
+
+      .celeste.light {
+        background: #7ed6df;
+      }
+
+      .violeta {
+        background: #be2edd;
+      }
+
+      .violeta.light {
+        background: #e056fd;
+      }
+
+      .naranja {
+        background: #f0932b;
+      }
+
+      .naranja.light {
+        background: #ffbe76;
+      }
+
+      .verde {
+        background: #6ab04c;
+      }
+
+      .verde.light {
+        background: #badc58;
+      }
+
+      .btn-start {
+        width: 400px;
+        height: 100px;
+        background: #ecf0f1;
+        color: #2c3e50;
+        font-size: 2.5rem;
+        position: absolute;
+        top: calc(50% - 50px);
+        left: calc(50% - 200px);
+      }
+
+      .hide {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="gameboard">
+      <div id="celeste" class="color celeste left" data-color="celeste"></div>
+      <div id="violeta" class="color violeta right" data-color="violeta"></div>
+      <div id="naranja" class="color naranja left" data-color="naranja"></div>
+      <div id="verde" class="color verde right" data-color="verde"></div>
+      <button id="btnEmpezar" class="btn-start" onclick="empezarJuego()">Empezar a jugar!</button>
+    </div>
+    <script>
+      const celeste = document.getElementById('celeste')
+      const violeta = document.getElementById('violeta')
+      const naranja = document.getElementById('naranja')
+      const verde = document.getElementById('verde')
+      const btnEmpezar = document.getElementById('btnEmpezar')
+
+      class Juego {
+
+        //lo que se creara inicialmente:
+        constructor() {
+          this.inicializar()
+          //generando secuena de colores
+          this.generarSecuencia()
+        }
+
+        inicializar() {
+          btnEmpezar.classList.add('hide')
+          this.nivel = 1
+          this.colores = {
+            //hacemos referencia a los btns obtenidos de html
+            //celeste = celeste (referecnai al de arriba)
+            //si tiene el mismo nombre podemos colocarlo asi:
+            celeste,
+            violeta,
+            naranja,
+            verde
+          }
+        }        
+        
+        //para esto vamos a definir una array de numeros que van a representar
+        //cada uno de los colores, 0-1-2-3
+
+        generarSecuencia() {
+          //recordamos que siempre que queramos poner un atributo nuevo
+          //lo podemos poner asi this.nuevoAtributo aunque no exista
+          //y se va a guardar internamente en el objeto, juego en este caso
+
+          //generaremos un array de 10 elementos
+          //pero para utilzar map() los elemento deben de estar definidos, sino map no funciona
+          //para esto llamamos a fill(0) para poder definir todos lo elemento en 0
+
+          //Math.random () retorna un numero ENTRE 0 y 1, nunca llega a 1
+          //entonces para obtener los valores de los colores (0, 1, 2, 3)
+          //multiplicamos Math.random()*4, de esta manera ahora nos retorna nu nuermo ENTRE 0 y 4
+          //y para redondearlo hacea abajo usamos Mathfloor, de manera que ahora los unicos valores
+          //que probablemente retornen son 0, 1, 2 o 3
+
+          this.secuencia = new Array(10).fill(0).map(n => Math.floor(Math.random() * 4))
+        }
+      }
+
+      function empezarJuego() {
+        miJuego = new Juego()
+      }
+    </script>
+  </body>
+</html>

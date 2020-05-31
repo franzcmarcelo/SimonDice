@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Simon Dice 3 iluminando secuencia</title>
+    <style>
+      body {
+        margin: 0;
+        background: #dedede;
+        display: flex;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .gameboard {
+        height: 100vh;
+        width: 100vh;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto;
+        max-height: 60vh;
+        max-width: 60vh;
+      }
+
+      .color {
+        width: 50%;
+        height: 50%;
+        display: inline-block;
+      }
+
+      .left {
+        float: left;
+      }
+
+      .right {
+        float: left;
+      }
+
+      .celeste {
+        background: #22a6b3;
+      }
+
+      .celeste.light {
+        background: #7ed6df;
+      }
+
+      .violeta {
+        background: #be2edd;
+      }
+
+      .violeta.light {
+        background: #e056fd;
+      }
+
+      .naranja {
+        background: #f0932b;
+      }
+
+      .naranja.light {
+        background: #ffbe76;
+      }
+
+      .verde {
+        background: #6ab04c;
+      }
+
+      .verde.light {
+        background: #badc58;
+      }
+
+      .btn-start {
+        width: 400px;
+        height: 100px;
+        background: #ecf0f1;
+        color: #2c3e50;
+        font-size: 2.5rem;
+        position: absolute;
+        top: calc(50% - 50px);
+        left: calc(50% - 200px);
+      }
+
+      .hide {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="gameboard">
+      <div id="celeste" class="color celeste left" data-color="celeste"></div>
+      <div id="violeta" class="color violeta right" data-color="violeta"></div>
+      <div id="naranja" class="color naranja left" data-color="naranja"></div>
+      <div id="verde" class="color verde right" data-color="verde"></div>
+      <button id="btnEmpezar" class="btn-start" onclick="empezarJuego()">Empezar a jugar!</button>
+    </div>
+    <script>
+      const celeste = document.getElementById('celeste')
+      const violeta = document.getElementById('violeta')
+      const naranja = document.getElementById('naranja')
+      const verde = document.getElementById('verde')
+      const btnEmpezar = document.getElementById('btnEmpezar')
+
+      class Juego {
+        constructor() {
+          this.inicializar()
+          this.generarSecuencia()
+          this.siguienteNivel()
+        }
+        // definimos dentro de la clase Juego, todos los metodos
+
+        inicializar() {
+          btnEmpezar.classList.add('hide')
+          this.nivel = 1
+          this.colores = {
+            //cada uno de esos son los elements html
+            //los elementos del DOM
+            //por esto se le puede agregarle una clase de css, hide, light, etc
+            // mediante classList.add('claseNueva')
+            // es decir, pedimos su class list, su lista de clases y añadimos la que queramos
+            // se agrega precidamente en esta parte:
+            // class="color celeste left"
+            celeste,
+            violeta,
+            naranja,
+            verde
+          }
+        }
+
+        generarSecuencia() {
+          this.secuencia = new Array(10).fill(0).map(n => Math.floor(Math.random() * 4))
+        }
+
+        siguienteNivel() {
+          this.iluminarSecuencia()
+        }
+
+        transformarNumeroAColor(numero) {
+          switch (numero) {
+            case 0:
+              return 'celeste'
+            case 1:
+              return 'violeta'
+            case 2:
+              return 'naranja'
+            case 3:
+              return 'verde'
+          }
+        }
+
+        iluminarSecuencia() {
+          //el nivel determina la cantidad de secuencias a iluminar
+          console.log(this.secuencia);
+          
+          for (let i = 0; i < this.nivel; i++) {
+            
+            //sacamos lo nros de la secuencia ya generada, para traducirlo a color
+            const color = this.transformarNumeroAColor(this.secuencia[i])
+            //si colocamos var a medida que el for transcurra se va a ir pisando el valor de color
+            //y para cuando termine la callstack de for y se pase a la cola de tareas
+            //para atender el setTimeOut(), color va a valer el ultimo color que tomo
+            //y asi tomas las iluminaciones de color sera a un solo color, el cual es el ultimo que tomo color
+            //entonce podemos utilizar let o const, los dos haran que se mantenga el valor para cada ciclo for
+            //utilizamos const para color, porque para el 1ero color no se modifica mas este valor
+            //utilizamos let para i pq va aumentando su valor
+
+
+            //para la iluminacion del primer color, el delay es 0, ya que i vale 0
+            
+            //si bien definimos la duacion del iluminado abajo
+            //aun no definimos el inicio de esta
+            //sino hacemos un delay se iluminaran a la misma velocidad que se recorre
+            //el ciclo for
+
+            //es por eso que es necesario un delay
+            //ahora si el delay es un nro determinado
+            //nuevamente el concepto de asincronismo
+            //esta funcion ingresada por seTimeout se encolara
+            //y cuando se haya ejecutado todo del ciclo for
+            //recien se llamara
+
+            //entonces el delay tiene que ser conforme a el orden en que llega
+            //es decir conforme a i
+            //una ves se ejecute for que es un tiempo muy pequeño
+            //se ejecutaran los setTimeOut pero cada cierto tiempo
+            //el 1ero tiene que ejecutarse lo mas antes posible -> 0seg
+            //el 2do en un tiempo despues que se haya apagado el 1ero 0.350 -> 1seg
+            //el 3ro en un tiempo despues de que haya apagado el 2do 1.350 -Z 2seg
+
+            //entonces jugamos con i
+            //1ero 0seg = i*100, como i vale 0 -> 0mseg
+            //2do 1seg = i*100, como i vale 1 -> 1000mseg
+            setTimeout(() => this.iluminarColor(color), i*1000 )
+          }
+        }
+
+        iluminarColor(color) {          
+          this.colores[color].classList.add('light')
+          //este delay indica la duracion del iluminado
+          setTimeout(() => this.apagarColor(color), 350)
+        }
+
+        apagarColor(color) {
+          this.colores[color].classList.remove('light')
+        }
+      }
+
+      function empezarJuego() {
+        window.juego = new Juego()
+      }
+    </script>
+  </body>
+</html>
